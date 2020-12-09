@@ -1,5 +1,5 @@
 #Transceiver configuration file
-callsign: LU2HES
-grid: FF99
-serial_port: '/dev/ttyUSB0'
+callsign: LU8AIE
+grid: GF05
+serial_port: 'COM5'
 baudrate: 57600
