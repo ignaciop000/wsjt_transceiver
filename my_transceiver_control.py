@@ -97,7 +97,7 @@ def transmit(isContinue):
             utc_time = datetime.datetime.utcnow()
             if 'FT8' in mode:
                 if (utc_time.second % 15 == 14 and utc_time.second % 2 == 1):
-                    print (utc_time+" TX!")
+                    print (utc_time," TX!")
                     puerto.write(b't')        
                     time.sleep(1)
                     if not isContinue:
@@ -105,7 +105,7 @@ def transmit(isContinue):
             else:
                 mscount = utc_time.second + utc_time.microsecond/1e6
                 if (abs(mscount%7.5 - 6.5) < 0.05):
-                    print (utc_time+" TX!")
+                    print (utc_time," TX!")
                     puerto.write(b't')        
                     time.sleep(1)
                     if not isContinue:
