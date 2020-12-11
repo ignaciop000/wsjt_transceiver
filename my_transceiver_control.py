@@ -22,7 +22,8 @@ serial_port = configs['serial_port']
 baudrate    = configs['baudrate']
 try:
     puerto = serial.Serial(serial_port, baudrate, timeout=0.5)
-except:    
+except Exception as err:
+    print(err)    
     print ("\nNo se puede abrir puerto: " + serial_port + "\n")
     exit(1)
 
@@ -64,7 +65,7 @@ def new_msg(msg):
             symbols = encode_ft8(msg)
         else:
             symbols = encode_ft4(msg)            
-        if symbols and symbols.any():
+        if symbols.any():
             load_symbols(symbols)
             current_msg = msg
         else:
