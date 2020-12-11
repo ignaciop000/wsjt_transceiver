@@ -5,6 +5,8 @@ import time
 import serial
 import sys
 import struct
+import datetime
+
 
 from ft8 import FT8Send
 from ft4 import FT4Send
@@ -55,6 +57,15 @@ def encode_ft4(msg):
         symbols = None
         time.sleep(3)
     return symbols
+
+def load_symbols(symbols):
+    print ("Load symbols into transmitter..")
+    puerto.write(b'm')
+    for symbol in symbols:
+        puerto.write(struct.pack('>B', symbol))
+    puerto.write(b'\0')
+    time.sleep(1)
+
 
 def new_msg(msg):
     global current_msg
