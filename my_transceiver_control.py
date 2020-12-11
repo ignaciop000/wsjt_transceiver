@@ -167,8 +167,8 @@ menu = ConsoleMenu("WJSTX Transceiver Control ", "FT8 and FT4")
 resp_submenu = ConsoleMenu("Respond with: ", "", exit_option_text = "Go back")
 
 #Main menu
-cq_item          = FunctionItem("Call CQ", call_cq, [false])
-continue_cq_item = FunctionItem("Continue Call CQ", call_cq, [true])
+cq_item          = FunctionItem("Call CQ", call_cq, [False])
+continue_cq_item = FunctionItem("Continue Call CQ", call_cq, [True])
 retransmit_item  = FunctionItem("Retransmit last", transmit, [])
 resp_new_item    = FunctionItem("Respond to new callsign", resp_new, [])
 submenu_item     = FunctionItem("Respond to last callsign", resp_last, [])
