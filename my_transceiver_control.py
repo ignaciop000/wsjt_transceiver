@@ -67,7 +67,7 @@ def load_symbols(symbols):
     time.sleep(1)
 
 
-def new_msg(msg):
+def new_msg(msg, isContinue):
     global current_msg
     global mode
     print (msg)
@@ -81,13 +81,13 @@ def new_msg(msg):
             current_msg = msg
         else:
             return
-    transmit() 
+    transmit(isContinue) 
 
-def call_cq():
+def call_cq(isContinue):
     msg = 'CQ ' + callsign + ' ' + grid
-    new_msg(msg)
-    
-def transmit():
+    new_msg(msg, isContinue)
+
+def transmit(isContinue):
     if not current_msg:
         print ("No previous message!")
         time.sleep(1)
@@ -96,18 +96,20 @@ def transmit():
         while True:
             utc_time = datetime.datetime.utcnow()
             if 'FT8' in mode:
-                if (utc_time.second % 15 == 14):
+                if (utc_time.second % 15 == 14 and utc_time.second % 2 == 1):
                     print ("TX!")
                     puerto.write(b't')        
                     time.sleep(1)
-                    break
+                    if (!isContinue)
+                        break
             else:
                 mscount = utc_time.second + utc_time.microsecond/1e6
                 if (abs(mscount%7.5 - 6.5) < 0.05):
                     print ("TX!")
                     puerto.write(b't')        
                     time.sleep(1)
-                    break     
+                    if (!isContinue)
+                        break     
     
 def resp_new():
     global rx_callsign
@@ -165,13 +167,14 @@ menu = ConsoleMenu("WJSTX Transceiver Control ", "FT8 and FT4")
 resp_submenu = ConsoleMenu("Respond with: ", "", exit_option_text = "Go back")
 
 #Main menu
-cq_item         = FunctionItem("Call CQ", call_cq, [])
-retransmit_item = FunctionItem("Retransmit last", transmit, [])
-resp_new_item   = FunctionItem("Respond to new callsign", resp_new, [])
-submenu_item    = FunctionItem("Respond to last callsign", resp_last, [])
-chfreq_item     = FunctionItem("Change TX frequency", change_freq, [])
-chft4_item      = FunctionItem("Change mode to FT4", change_mode, [])
-chft8_item      = FunctionItem("Change mode to FT8", change_mode, [])
+cq_item          = FunctionItem("Call CQ", call_cq, [false])
+continue_cq_item = FunctionItem("Continue Call CQ", call_cq, [true])
+retransmit_item  = FunctionItem("Retransmit last", transmit, [])
+resp_new_item    = FunctionItem("Respond to new callsign", resp_new, [])
+submenu_item     = FunctionItem("Respond to last callsign", resp_last, [])
+chfreq_item      = FunctionItem("Change TX frequency", change_freq, [])
+chft4_item       = FunctionItem("Change mode to FT4", change_mode, [])
+chft8_item       = FunctionItem("Change mode to FT8", change_mode, [])
 
 resp_grid_item   = FunctionItem("Respond with grid", respond, ['grid'])
 resp_signal_item = FunctionItem("Respond with R + signal strenght", respond, ['signal'])
@@ -182,6 +185,7 @@ resp_submenu.append_item(resp_signal_item)
 resp_submenu.append_item(resp_73_item)
 
 menu.append_item(cq_item)
+menu.append_item(continue_cq_item)
 menu.append_item(resp_new_item)
 menu.append_item(submenu_item)
 menu.append_item(retransmit_item)
