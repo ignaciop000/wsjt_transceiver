@@ -98,14 +98,14 @@ def transmit():
             if 'FT8' in mode:
                 if (utc_time.second % 15 == 14):
                     print ("TX!")
-                    puerto.write('t')        
+                    puerto.write(b't')        
                     time.sleep(1)
                     break
             else:
                 mscount = utc_time.second + utc_time.microsecond/1e6
                 if (abs(mscount%7.5 - 6.5) < 0.05):
                     print ("TX!")
-                    puerto.write('t')        
+                    puerto.write(b't')        
                     time.sleep(1)
                     break     
     
