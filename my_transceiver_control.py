@@ -100,7 +100,7 @@ def transmit(isContinue):
                     print ("TX!")
                     puerto.write(b't')        
                     time.sleep(1)
-                    if (not isContinue)
+                    if not isContinue:
                         break
             else:
                 mscount = utc_time.second + utc_time.microsecond/1e6
@@ -108,7 +108,7 @@ def transmit(isContinue):
                     print ("TX!")
                     puerto.write(b't')        
                     time.sleep(1)
-                    if (not isContinue)
+                    if not isContinue:
                         break     
     
 def resp_new():
